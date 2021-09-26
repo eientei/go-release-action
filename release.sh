@@ -84,7 +84,7 @@ ls -lha
 if [ ${INPUT_DISABLE_PACKAGING^^} == 'TRUE' ]; then
   MEDIA_TYPE='application/octet-stream'
   RELEASE_ASSET_EXT=${EXT}
-  mv ${BINARY_NAME} ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}
+  mv ${BINARY_NAME}${EXT} ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT}
 else
   RELEASE_ASSET_EXT='.tar.gz'
   MEDIA_TYPE='application/gzip'
