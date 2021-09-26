@@ -81,14 +81,19 @@ cd ${BUILD_ARTIFACTS_FOLDER}
 ls -lha
 
 # compress and package binary, then calculate checksum
-RELEASE_ASSET_EXT='.tar.gz'
-MEDIA_TYPE='application/gzip'
-if [ ${INPUT_GOOS} == 'windows' ]; then
-RELEASE_ASSET_EXT='.zip'
-MEDIA_TYPE='application/zip'
-( shopt -s dotglob; zip -vr ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} * )
+if [ ${INPUT_DISABLE_PACKAGING^^} == 'TRUE' ]; then
+  MEDIA_TYPE='application/octet-stream'
+  RELEASE_ASSET_EXT=${EXT}
 else
-( shopt -s dotglob; tar cvfz ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} * )
+  RELEASE_ASSET_EXT='.tar.gz'
+  MEDIA_TYPE='application/gzip'
+  if [ ${INPUT_GOOS} == 'windows' ]; then
+  RELEASE_ASSET_EXT='.zip'
+  MEDIA_TYPE='application/zip'
+  ( shopt -s dotglob; zip -vr ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} * )
+  else
+  ( shopt -s dotglob; tar cvfz ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} * )
+  fi
 fi
 MD5_SUM=$(md5sum ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} | cut -d ' ' -f 1)
 SHA256_SUM=$(sha256sum ${RELEASE_ASSET_NAME}${RELEASE_ASSET_EXT} | cut -d ' ' -f 1)

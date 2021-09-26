@@ -67,10 +67,14 @@ inputs:
     description: "Overwrite asset if it's already exist."
     required: false
     default: 'FALSE'
-  asset_name:  
+  asset_name:
     description: 'Customize asset name if do not want to use the default format.'
     required: false
     default: ''
+  disable_packaging:
+    description: 'Disable packaging. Will only publish binaries and binaries checksums.'
+    required: false
+    default: 'FALSE'
 
 runs:
   using: 'docker'
@@ -93,6 +97,7 @@ runs:
     - ${{ inputs.release_tag }}
     - ${{ inputs.overwrite }}
     - ${{ inputs.asset_name }}
+    - ${{ inputs.disable_packaging }}
 
 branding:
   icon: 'package'  
